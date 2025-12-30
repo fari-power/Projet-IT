@@ -3,3 +3,6 @@ geopy
 folium
 scrapy
 requests
+streamlit
+streamlit-folium
+plotly

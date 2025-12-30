@@ -34,9 +34,9 @@ def query_overpass_api(query):
 def get_all_food_retail_casablanca():
     """Recherche TOUS les commerces alimentaires dans la région de Casablanca"""
     
-    # Bounding box élargie pour couvrir toute l'agglomération de Casablanca
-    # Sud-Ouest: 33.4, -7.9 | Nord-Est: 33.7, -7.3
-    bbox = "33.4,-7.9,33.7,-7.3"
+    # Bounding box élargie pour couvrir Marrakech
+    # Sud-Ouest: 31.53, -8.10 | Nord-Est: 31.70, -7.90
+    bbox = "31.53,-8.10,31.70,-7.90"
     
     print(f"[INFO] Recherche dans la zone: {bbox}")
     
@@ -296,7 +296,7 @@ def main():
         for (lat_min, lat_max, lon_min, lon_max), zone_name in zone_mapping.items():
             if lat_min <= lat <= lat_max and lon_min <= lon <= lon_max:
                 return zone_name
-        return "Casablanca"
+        return "Marrakech"
     df["Zone"] = df.apply(lambda row: get_zone_from_coords(row["Latitude"], row["Longitude"]), axis=1)
     # --- Nettoyage et stats ---
     initial_count = len(df)
@@ -312,7 +312,7 @@ def main():
     for status, count in status_stats.items():
         print(f"   {status}: {count}")
     # --- Sauvegarde ---
-    output_file = "points_vente_casablanca_complet.csv"
+    output_file = "points_vente_marrakech_complet.csv"
     csv_ok = False
     try:
         df.to_csv(output_file, index=False, encoding='utf-8-sig')

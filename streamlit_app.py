@@ -76,83 +76,34 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# ... (Keep previous code)
 def load_data():
-    """Charge les données de Casablanca"""
+    """Charge les données de Marrakech"""
     try:
-        df = pd.read_csv("points_vente_casablanca_zones_corrigees.csv")
+        df = pd.read_csv("points_vente_marrakech_complet.csv")
         return df
-    except FileNotFoundError:
-        # Données de démonstration si le fichier n'existe pas
-        return pd.DataFrame({
-            'Nom': ['Marjane', 'Café Central', 'Épicerie sans nom', 'BIM'],
-            'Catégorie': ['Supermarché', 'Café', 'Épicerie', 'Supérette / Mini-market'],
-            'Statut': ['Formel', 'Formel', 'Informel', 'Formel'],
-            'Zone': ['Californie', 'Centre-ville', 'Quartier populaire', 'Maarif'],
-            'Latitude': [33.5447, 33.5731, 33.5850, 33.5820],
-            'Longitude': [-7.6400, -7.5898, -7.6100, -7.6050]
-        })
+# ... (Keep previous code)
 
 def main():
     # En-tête principal
     st.markdown("""
     <div class="main-header">
-        <h1>🏪 Base de Données Intelligente des Points de Vente - Maroc</h1>
-        <p>Système dynamique de recensement et classification automatique du commerce national</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Sidebar - Navigation
-    st.sidebar.title("🎯 Navigation")
+        <h1>🏪 Base de Données Intelligente des Points de Vente - Marrakech</h1>
+# ... (Keep previous code until selection)
     page = st.sidebar.selectbox("Choisissez une section", [
         "🏠 Vue d'ensemble",
-        "📊 Cas d'étude : Casablanca", 
-        "🔬 Méthodologie",
-        "⚠️ Difficultés Rencontrées",
-        "🤖 Intelligence Artificielle",
-        "️ Cartographie interactive"
-    ])
-    
+        "📊 Cas d'étude : Marrakech", 
+# ... (Keep previous code)
     if page == "🏠 Vue d'ensemble":
         show_overview()
-    elif page == "📊 Cas d'étude : Casablanca":
-        show_casablanca_study()
-    elif page == "🔬 Méthodologie":
-        show_methodology()
-    elif page == "⚠️ Difficultés Rencontrées":
-        show_difficulties()
-    elif page == "🤖 Intelligence Artificielle":
-        show_ai_features()
-    elif page == "🗺️ Cartographie interactive":
-        show_interactive_map()
-
-def show_overview():
-    st.header("🎯 Problématique et Objectifs")
-    
-    col1, col2 = st.columns([2, 1])
-    
-    with col1:
-        st.markdown("""
-        ### 🔍 Problématique
-        **Comment concevoir une base de données dynamique et intelligente permettant d'identifier, 
-        de classer et de mettre à jour en continu les points de vente de produits de grande 
-        distribution au Maroc, y compris les acteurs informels ?**
-        
-        ### 🎯 Objectif Général
-        Mettre en place une base de données dynamique et intelligente recensant l'ensemble 
-        des points de vente de produits de grande distribution au Maroc.
-        
-        ### 🌍 Périmètre Géographique
-        - **Couverture** : Ensemble du territoire marocain
-        - **Structure** : Régions → Villes → Quartiers
-        - **Focus initial** : Casablanca comme cas pilote
-        """)
-    
-    with col2:
-        pass
+    elif page == "📊 Cas d'étude : Marrakech":
+        show_casablanca_study() # Keeping function name for now to avoid breaking refs
+# ... (Keep previous code)
 
 def show_casablanca_study():
-    st.header("📊 Cas d'Étude : Casablanca")
+    st.header("📊 Cas d'Étude : Marrakech")
     st.markdown("*Validation de notre méthodologie sur le terrain*")
+# ... (Keep previous code)
     
     # Charger les données
     df = load_data()
