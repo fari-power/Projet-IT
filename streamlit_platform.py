@@ -144,6 +144,15 @@ st.markdown("""
         border: 1px solid #e2e8f0;
     }
     
+    /* Styled Containers (replacing custom divs) */
+    [data-testid="stVerticalBlockBorderWrapper"] > div {
+        background-color: white;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        padding: 1rem;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -272,33 +281,31 @@ def main():
             # Charts Row 1
             c1, c2 = st.columns([2, 1])
             with c1:
-                st.markdown('<div class="metric-container" style="height: 100%;">', unsafe_allow_html=True)
-                st.subheader("Distribution par Catégorie")
-                counts = filtered_df['Catégorie'].value_counts().reset_index()
-                counts.columns = ['Catégorie', 'Nombre']
-                fig_bar = px.bar(
-                    counts,
-                    x='Catégorie', y='Nombre',
-                    labels={'Catégorie': 'Catégorie', 'Nombre': 'Nombre'},
-                    color='Catégorie',
-                    color_discrete_sequence=['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#a55eea', '#f39c12', '#95afc0']
-                )
-                fig_bar.update_layout(xaxis_title="", yaxis_title="Points de vente", showlegend=False, margin=dict(t=0, l=0, r=0, b=0))
-                st.plotly_chart(fig_bar, use_container_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                with st.container(border=True):
+                    st.subheader("Distribution par Catégorie")
+                    counts = filtered_df['Catégorie'].value_counts().reset_index()
+                    counts.columns = ['Catégorie', 'Nombre']
+                    fig_bar = px.bar(
+                        counts,
+                        x='Catégorie', y='Nombre',
+                        labels={'Catégorie': 'Catégorie', 'Nombre': 'Nombre'},
+                        color='Catégorie',
+                        color_discrete_sequence=['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#a55eea', '#f39c12', '#95afc0']
+                    )
+                    fig_bar.update_layout(xaxis_title="", yaxis_title="Points de vente", showlegend=False, margin=dict(t=0, l=0, r=0, b=0), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(family="Space Grotesk"))
+                    st.plotly_chart(fig_bar, use_container_width=True)
             
             with c2:
-                st.markdown('<div class="metric-container" style="height: 100%;">', unsafe_allow_html=True)
-                st.subheader("Répartition Formel/Informel")
-                fig_pie = px.pie(
-                    filtered_df, names='Statut', 
-                    color='Statut',
-                    color_discrete_map={'Formel':'#10b981', 'Informel':'#ef4444'},
-                    hole=0.6
-                )
-                fig_pie.update_layout(showlegend=False, margin=dict(t=0, l=0, r=0, b=0))
-                st.plotly_chart(fig_pie, use_container_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+                with st.container(border=True):
+                    st.subheader("Répartition Formel/Informel")
+                    fig_pie = px.pie(
+                        filtered_df, names='Statut', 
+                        color='Statut',
+                        color_discrete_map={'Formel':'#10b981', 'Informel':'#ef4444'},
+                        hole=0.6
+                    )
+                    fig_pie.update_layout(showlegend=False, margin=dict(t=0, l=0, r=0, b=0), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(family="Space Grotesk"))
+                    st.plotly_chart(fig_pie, use_container_width=True)
 
         elif menu == "Explorateur de Données":
             st.title("🗃️ Explorateur Données")
