@@ -158,60 +158,84 @@ st.markdown("""
 
 # --- Fonction de chargement des données ---
 @st.cache_data
-def load_data():
-    """Charge les données depuis le dossier data/ (nouveau système)"""
-    import os
+def get_available_data_files():
+    """Liste tous les fichiers CSV disponibles dans le dossier data/"""
     from pathlib import Path
     
+    data_dir = Path("data")
+    if not data_dir.exists():
+        return []
+    
+    csv_files = list(data_dir.glob("points_vente_*_complet.csv"))
+    
+    # Extraire les noms propres (ville/région) depuis les noms de fichiers
+    file_info = []
+    for file in csv_files:
+        zone_name = file.stem.replace("points_vente_", "").replace("_complet", "")
+        # Capitaliser et remplacer les tirets par espaces pour l'affichage
+        display_name = zone_name.replace("-", " ").title()
+        file_info.append({
+            'file': file,
+            'zone_name': zone_name,
+            'display_name': display_name
+        })
+    
+    return file_info
+
+@st.cache_data
+def load_selected_data(selected_option):
+    """Charge les données selon la sélection: une zone spécifique ou toutes les zones"""
+    from pathlib import Path
+    
+    file_info_list = get_available_data_files()
+    
+    if not file_info_list:
+        empty_df = pd.DataFrame(columns=['Nom', 'Catégorie', 'Latitude', 'Longitude', 'Zone', 'Statut'])
+        return empty_df, "Aucune donnée"
+    
     try:
-        data_dir = Path("data")
-        
-        # Si le dossier data/ n'existe pas, le créer
-        if not data_dir.exists():
-            data_dir.mkdir(exist_ok=True)
-        
-        # Chercher les fichiers CSV dans data/
-        csv_files = list(data_dir.glob("points_vente_*_complet.csv"))
-        
-        if csv_files:
-            # Charger le premier fichier trouvé (ou prioriser certaines villes)
-            priority_cities = ["casablanca", "marrakech", "rabat", "fes"]
+        if selected_option == "🌍 Toutes les zones":
+            # Charger et concaténer tous les fichiers
+            all_dfs = []
+            for file_info in file_info_list:
+                df = pd.read_csv(file_info['file'])
+                # Ajouter colonne Zone si manquante
+                if 'Zone' not in df.columns:
+                    df['Zone'] = file_info['display_name']
+                all_dfs.append(df)
             
-            selected_file = None
-            for city in priority_cities:
-                for file in csv_files:
-                    if city in file.name.lower():
-                        selected_file = file
-                        break
-                if selected_file:
-                    break
+            df = pd.concat(all_dfs, ignore_index=True)
+            city_name = "Toutes les zones"
+        else:
+            # Charger le fichier sélectionné
+            selected_file_info = next((f for f in file_info_list if f['display_name'] == selected_option), None)
             
-            # Si aucune priorité trouvée, prendre le premier
-            if not selected_file:
-                selected_file = csv_files[0]
+            if not selected_file_info:
+                empty_df = pd.DataFrame(columns=['Nom', 'Catégorie', 'Latitude', 'Longitude', 'Zone', 'Statut'])
+                return empty_df, "Erreur"
             
-            df = pd.read_csv(selected_file)
-            city = selected_file.stem.replace("points_vente_", "").replace("_complet", "").capitalize()
-            
-            # Nettoyage basique
-            if 'Latitude' in df.columns:
-                df = df.dropna(subset=['Latitude', 'Longitude'])
+            df = pd.read_csv(selected_file_info['file'])
+            city_name = selected_file_info['display_name']
             
             # Ajouter colonne Zone si manquante
             if 'Zone' not in df.columns:
-                df['Zone'] = city
-            
-            return df, city
-        else:
-            # Aucun fichier trouvé, retourner un DataFrame vide avec les colonnes nécessaires
-            empty_df = pd.DataFrame(columns=['Nom', 'Catégorie', 'Latitude', 'Longitude', 'Zone', 'Statut'])
-            return empty_df, "Aucune donnée"
-            
+                df['Zone'] = city_name
+        
+        # Nettoyage basique
+        if 'Latitude' in df.columns:
+            df = df.dropna(subset=['Latitude', 'Longitude'])
+        
+        return df, city_name
+        
     except Exception as e:
         st.error(f"Erreur de chargement: {e}")
-        # Retourner un DataFrame vide avec les colonnes nécessaires
         empty_df = pd.DataFrame(columns=['Nom', 'Catégorie', 'Latitude', 'Longitude', 'Zone', 'Statut'])
         return empty_df, "Erreur"
+
+@st.cache_data
+def load_data():
+    """Fonction de compatibilité - charge les données par défaut (toutes les zones)"""
+    return load_selected_data("🌍 Toutes les zones")
 
 # --- Authentification ---
 def setup_auth():
@@ -301,82 +325,403 @@ def main():
 
         # --- Contenu Principal ---
         if menu == "Dashboard":
-            st.title(f"Dashboard Commercial - {city}")
+            st.title("📊 Dashboard Commercial")
             st.markdown("Vue d'ensemble de l'activité et de la distribution des points de vente.")
             
-            # Metrics Row
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                metric_card("Points de Vente Total", f"{len(filtered_df):,}")
-            with col2:
-                formel = len(filtered_df[filtered_df['Statut']=='Formel'])
-                pct = (formel/len(filtered_df)*100) if len(filtered_df)>0 else 0
-                metric_card("Taux de Formalité", f"{pct:.1f}%")
-            with col3:
-                metric_card("Quartiers Couverts", filtered_df['Zone'].nunique())
-            with col4:
-                metric_card("Catégories Uniques", filtered_df['Catégorie'].nunique())
-
-            st.markdown("### 📈 Analyse Détaillée")
+            # Sélecteur de zone/fichier pour le Dashboard
+            available_files = get_available_data_files()
             
-            # Charts Row 1
-            c1, c2 = st.columns([2, 1])
-            with c1:
-                with st.container(border=True):
-                    st.subheader("Distribution par Catégorie")
-                    counts = filtered_df['Catégorie'].value_counts().reset_index()
-                    counts.columns = ['Catégorie', 'Nombre']
-                    fig_bar = px.bar(
-                        counts,
-                        x='Catégorie', y='Nombre',
-                        labels={'Catégorie': 'Catégorie', 'Nombre': 'Nombre'},
-                        color='Catégorie',
-                        color_discrete_sequence=['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#a55eea', '#f39c12', '#95afc0']
+            if available_files:
+                file_options = ["🌍 Toutes les zones"] + [f['display_name'] for f in available_files]
+                
+                col_selector1, col_selector2 = st.columns([2, 3])
+                with col_selector1:
+                    selected_data_source = st.selectbox(
+                        "📍 Sélectionner la zone à analyser",
+                        file_options,
+                        index=0,
+                        help="Choisissez une zone spécifique (ville ou région) ou affichez toutes les données agrégées"
                     )
-                    fig_bar.update_layout(xaxis_title="", yaxis_title="Points de vente", showlegend=False, margin=dict(t=0, l=0, r=0, b=0), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(family="Space Grotesk"))
-                    st.plotly_chart(fig_bar, use_container_width=True)
-            
-            with c2:
-                with st.container(border=True):
-                    st.subheader("Répartition Formel/Informel")
-                    fig_pie = px.pie(
-                        filtered_df, names='Statut', 
-                        color='Statut',
-                        color_discrete_map={'Formel':'#10b981', 'Informel':'#ef4444'},
-                        hole=0.6
-                    )
-                    fig_pie.update_layout(showlegend=False, margin=dict(t=0, l=0, r=0, b=0), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(family="Space Grotesk"))
-                    st.plotly_chart(fig_pie, use_container_width=True)
-
-        elif menu == "Explorateur de Données":
-            st.title("🗃️ Explorateur Données")
-            st.markdown(f"Consultez et gérez la base de données de {city}. {len(filtered_df)} entrées affichées.")
-
-            # Table "Shadcn-like" avec st.dataframe et Column Config
-            st.dataframe(
-                filtered_df,
-                use_container_width=True,
-                column_config={
-                    "Image": st.column_config.ImageColumn("Aperçu"),
-                    "Nom": st.column_config.TextColumn("Nom Commercial", width="medium"),
-                    "Catégorie": st.column_config.TextColumn("Catégorie", width="medium"),
-                    "Statut": st.column_config.TextColumn("Statut", width="small"),
-                    "Score": st.column_config.ProgressColumn("Score Fiabilité", min_value=0, max_value=100, format="%d%%"),
-                    "Latitude": st.column_config.NumberColumn("Lat", format="%.4f"),
-                    "Longitude": st.column_config.NumberColumn("Lon", format="%.4f"),
-                },
-                height=600,
-                hide_index=True 
-            )
-
-        elif menu == "Carte Interactive":
-            st.title("🗺️ Géolocalisation")
-            st.markdown("Carte interactive des points de vente.")
+                
+                with col_selector2:
+                    st.info(f"📊 **{len(available_files)} zone(s) disponible(s)** - Scraping via le Labo")
+                
+                st.markdown("---")
+                
+                # Charger les données selon la sélection
+                dashboard_df, dashboard_city = load_selected_data(selected_data_source)
+                
+                # Appliquer les filtres globaux (sidebar)
+                dashboard_filtered = dashboard_df.copy()
+                if not dashboard_df.empty:
+                    if selected_zone != "Toutes" and 'Zone' in dashboard_filtered.columns:
+                        dashboard_filtered = dashboard_filtered[dashboard_filtered['Zone'] == selected_zone]
+                    if selected_cat and 'Catégorie' in dashboard_filtered.columns:
+                        dashboard_filtered = dashboard_filtered[dashboard_filtered['Catégorie'].isin(selected_cat)]
+                
+                filtered_df = dashboard_filtered
+                city = dashboard_city
+            else:
+                st.warning("🔍 Aucune donnée disponible. Lancez un scraping dans '🧪 Labo - Scraping' pour générer des données.")
+                filtered_df = pd.DataFrame(columns=['Nom', 'Catégorie', 'Latitude', 'Longitude', 'Zone', 'Statut'])
+                city = "Aucune donnée"
             
             if not filtered_df.empty:
-               st.map(filtered_df, latitude='Latitude', longitude='Longitude', size=20, color='#2a7ae2')
+                # Metrics Row
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    metric_card("Points de Vente Total", f"{len(filtered_df):,}")
+                with col2:
+                    formel = len(filtered_df[filtered_df['Statut']=='Formel']) if 'Statut' in filtered_df.columns else 0
+                    pct = (formel/len(filtered_df)*100) if len(filtered_df)>0 else 0
+                    metric_card("Taux de Formalité", f"{pct:.1f}%")
+                with col3:
+                    metric_card("Zones Couvertes", filtered_df['Zone'].nunique() if 'Zone' in filtered_df.columns else 0)
+                with col4:
+                    metric_card("Catégories", filtered_df['Catégorie'].nunique() if 'Catégorie' in filtered_df.columns else 0)
+
+                st.markdown("---")
+                st.markdown("### 📈 Analyse Détaillée")
+                
+                # Charts Row 1
+                c1, c2 = st.columns([2, 1])
+                with c1:
+                    with st.container(border=True):
+                        st.subheader("📊 Distribution par Catégorie")
+                        if 'Catégorie' in filtered_df.columns:
+                            counts = filtered_df['Catégorie'].value_counts().head(10).reset_index()
+                            counts.columns = ['Catégorie', 'Nombre']
+                            fig_bar = px.bar(
+                                counts,
+                                x='Catégorie', y='Nombre',
+                                labels={'Catégorie': 'Catégorie', 'Nombre': 'Nombre'},
+                                color='Nombre',
+                                color_continuous_scale='Blues',
+                                text='Nombre'
+                            )
+                            fig_bar.update_traces(textposition='outside')
+                            fig_bar.update_layout(
+                                xaxis_title="", 
+                                yaxis_title="Points de vente", 
+                                showlegend=False, 
+                                margin=dict(t=10, l=0, r=0, b=0),
+                                plot_bgcolor='rgba(0,0,0,0)',
+                                paper_bgcolor='rgba(0,0,0,0)',
+                                font=dict(family="Space Grotesk", size=12),
+                                xaxis={'categoryorder':'total descending'}
+                            )
+                            st.plotly_chart(fig_bar, use_container_width=True)
+                        else:
+                            st.info("Colonne 'Catégorie' manquante")
+                
+                with c2:
+                    with st.container(border=True):
+                        st.subheader("🎯 Formel vs Informel")
+                        if 'Statut' in filtered_df.columns:
+                            statut_counts = filtered_df['Statut'].value_counts()
+                            fig_pie = px.pie(
+                                values=statut_counts.values,
+                                names=statut_counts.index,
+                                color=statut_counts.index,
+                                color_discrete_map={'Formel':'#10b981', 'Informel':'#ef4444'},
+                                hole=0.65
+                            )
+                            fig_pie.update_traces(
+                                textposition='inside',
+                                textinfo='percent+label',
+                                textfont_size=14
+                            )
+                            fig_pie.update_layout(
+                                showlegend=False,
+                                margin=dict(t=10, l=0, r=0, b=0),
+                                plot_bgcolor='rgba(0,0,0,0)',
+                                paper_bgcolor='rgba(0,0,0,0)',
+                                font=dict(family="Space Grotesk")
+                            )
+                            st.plotly_chart(fig_pie, use_container_width=True)
+                            
+                            # Stats textuelles
+                            st.markdown(f"**Formel:** {statut_counts.get('Formel', 0):,} ({pct:.1f}%)")
+                            st.markdown(f"**Informel:** {statut_counts.get('Informel', 0):,} ({100-pct:.1f}%)")
+                        else:
+                            st.info("Colonne 'Statut' manquante")
+                
+                # Charts Row 2
+                st.markdown("---")
+                c3, c4 = st.columns(2)
+                
+                with c3:
+                    with st.container(border=True):
+                        st.subheader("🗺️ Top 10 Zones")
+                        if 'Zone' in filtered_df.columns:
+                            zone_counts = filtered_df['Zone'].value_counts().head(10).reset_index()
+                            zone_counts.columns = ['Zone', 'Nombre']
+                            fig_zones = px.bar(
+                                zone_counts,
+                                y='Zone', x='Nombre',
+                                orientation='h',
+                                color='Nombre',
+                                color_continuous_scale='Viridis',
+                                text='Nombre'
+                            )
+                            fig_zones.update_traces(textposition='outside')
+                            fig_zones.update_layout(
+                                xaxis_title="Nombre de points",
+                                yaxis_title="",
+                                showlegend=False,
+                                margin=dict(t=10, l=0, r=0, b=0),
+                                plot_bgcolor='rgba(0,0,0,0)',
+                                paper_bgcolor='rgba(0,0,0,0)',
+                                font=dict(family="Space Grotesk"),
+                                yaxis={'categoryorder':'total ascending'},
+                                height=400
+                            )
+                            st.plotly_chart(fig_zones, use_container_width=True)
+                        else:
+                            st.info("Colonne 'Zone' manquante")
+                
+                with c4:
+                    with st.container(border=True):
+                        st.subheader("📋 Statistiques Détaillées")
+                        
+                        # Densité
+                        if 'Zone' in filtered_df.columns and filtered_df['Zone'].nunique() > 0:
+                            avg_per_zone = len(filtered_df) / filtered_df['Zone'].nunique()
+                            st.metric("Densité moyenne", f"{avg_per_zone:.1f} points/zone")
+                        
+                        # Top catégorie
+                        if 'Catégorie' in filtered_df.columns:
+                            top_cat = filtered_df['Catégorie'].value_counts().index[0]
+                            top_cat_count = filtered_df['Catégorie'].value_counts().values[0]
+                            st.metric("Top Catégorie", top_cat, f"{top_cat_count} points")
+                        
+                        # Complétude des données
+                        if len(filtered_df) > 0:
+                            completeness = (1 - filtered_df.isnull().sum().sum() / (len(filtered_df) * len(filtered_df.columns))) * 100
+                            st.metric("Complétude des données", f"{completeness:.1f}%")
+                        
+                        st.markdown("---")
+                        
+                        # Tableau récapitulatif
+                        st.markdown("**📊 Résumé par Statut et Catégorie**")
+                        if 'Statut' in filtered_df.columns and 'Catégorie' in filtered_df.columns:
+                            pivot = pd.crosstab(
+                                filtered_df['Catégorie'],
+                                filtered_df['Statut'],
+                                margins=True,
+                                margins_name="Total"
+                            ).head(8)
+                            st.dataframe(pivot, use_container_width=True)
+
+        elif menu == "Explorateur de Données":
+            st.title("🗃️ Explorateur de Données")
+            st.markdown(f"Base de données complète de **{city}**")
+
+            if filtered_df.empty:
+                st.warning("🔍 Aucune donnée disponible. Lancez un scraping dans '🧪 Labo - Scraping'")
             else:
-               st.info("Aucune donnée géographique disponible pour ces filtres.")
+                # Barre de recherche et filtres avancés
+                col_search, col_export = st.columns([3, 1])
+                
+                with col_search:
+                    search_term = st.text_input(
+                        "🔍 Rechercher",
+                        placeholder="Nom du commerce, adresse, catégorie...",
+                        label_visibility="collapsed"
+                    )
+                
+                with col_export:
+                    st.download_button(
+                        label="📥 Exporter CSV",
+                        data=filtered_df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig'),
+                        file_name=f"export_{city}_{pd.Timestamp.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
+                
+                # Filtrage par recherche
+                if search_term:
+                    mask = filtered_df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)
+                    display_df = filtered_df[mask]
+                    st.info(f"🔎 {len(display_df)} résultat(s) trouvé(s) pour '{search_term}'")
+                else:
+                    display_df = filtered_df
+                
+                # Statistiques rapides
+                col_stat1, col_stat2, col_stat3 = st.columns(3)
+                col_stat1.metric("📊 Entrées affichées", f"{len(display_df):,}")
+                col_stat2.metric("📂 Total base", f"{len(df):,}")
+                col_stat3.metric("🔍 Filtré", f"{len(filtered_df):,}")
+                
+                st.markdown("---")
+                
+                # Configuration des colonnes pour un affichage optimal
+                column_config = {
+                    "Nom": st.column_config.TextColumn("🏪 Nom Commercial", width="large"),
+                    "Catégorie": st.column_config.TextColumn("📦 Catégorie", width="medium"),
+                    "Statut": st.column_config.TextColumn("⚖️ Statut", width="small"),
+                    "Zone": st.column_config.TextColumn("📍 Zone", width="medium"),
+                    "Latitude": st.column_config.NumberColumn("📐 Lat", format="%.5f"),
+                    "Longitude": st.column_config.NumberColumn("📐 Lon", format="%.5f"),
+                }
+                
+                # Ajouter les colonnes si elles existent
+                if "Adresse" in display_df.columns:
+                    column_config["Adresse"] = st.column_config.TextColumn("🏠 Adresse", width="large")
+                if "Source" in display_df.columns:
+                    column_config["Source"] = st.column_config.TextColumn("🔗 Source", width="small")
+                if "Image" in display_df.columns:
+                    column_config["Image"] = st.column_config.ImageColumn("🖼️ Image", width="small")
+                
+                # Table interactive
+                st.dataframe(
+                    display_df,
+                    use_container_width=True,
+                    column_config=column_config,
+                    height=600,
+                    hide_index=True
+                )
+                
+                # Détails sélectionnés (optionnel - si on veut permettre la sélection)
+                with st.expander("ℹ️ Informations complémentaires"):
+                    st.markdown(f"""
+                    **📊 Résumé des données :**
+                    - Total des entrées : **{len(df):,}**
+                    - Entrées filtrées : **{len(filtered_df):,}**
+                    - Entrées affichées : **{len(display_df):,}**
+                    - Colonnes disponibles : **{len(display_df.columns)}**
+                    - Complétude : **{(1 - display_df.isnull().sum().sum() / (len(display_df) * len(display_df.columns)) if len(display_df) > 0 else 0) * 100:.1f}%**
+                    """)
+                    
+                    if st.checkbox("Afficher les statistiques détaillées"):
+                        st.write("**📈 Statistiques par colonne :**")
+                        st.write(display_df.describe(include='all'))
+
+        elif menu == "Carte Interactive":
+            st.title("🗺️ Carte Interactive")
+            st.markdown(f"Visualisation géographique des points de vente de **{city}**")
+            
+            if filtered_df.empty:
+                st.warning("🔍 Aucune donnée disponible pour afficher la carte.")
+            else:
+                # Filtres de la carte
+                col_map1, col_map2 = st.columns(2)
+                
+                with col_map1:
+                    show_clusters = st.checkbox("🔵 Activer le clustering", value=True, help="Regrouper les points proches")
+                
+                with col_map2:
+                    color_by = st.selectbox(
+                        "🎨 Coloration",
+                        options=["Catégorie", "Statut", "Zone", "Uniforme"],
+                        index=0
+                    )
+                
+                # Préparer les données pour la carte
+                map_df = filtered_df.copy()
+                if 'Latitude' in map_df.columns and 'Longitude' in map_df.columns:
+                    map_df = map_df.dropna(subset=['Latitude', 'Longitude'])
+                
+                if map_df.empty:
+                    st.error("❌ Aucune coordonnée GPS valide dans les données filtrées")
+                else:
+                    # Créer une carte Plotly avec clustering visuel
+                    # Assigner des couleurs selon la sélection
+                    if color_by == "Uniforme":
+                        map_df['color_group'] = "Point de vente"
+                        color_discrete_map = {"Point de vente": "#3b82f6"}
+                    elif color_by in map_df.columns:
+                        map_df['color_group'] = map_df[color_by].fillna("Non spécifié")
+                        color_discrete_map = None
+                    else:
+                        map_df['color_group'] = "Point de vente"
+                        color_discrete_map = {"Point de vente": "#3b82f6"}
+                    
+                    # Créer le texte de hover personnalisé
+                    if 'Nom' in map_df.columns:
+                        map_df['hover_text'] = map_df.apply(
+                            lambda row: f"<b>{row.get('Nom', 'N/A')}</b><br>" +
+                                       f"📦 {row.get('Catégorie', 'N/A')}<br>" +
+                                       f"📍 {row.get('Zone', 'N/A')}<br>" +
+                                       f"⚖️ {row.get('Statut', 'N/A')}",
+                            axis=1
+                        )
+                    else:
+                        map_df['hover_text'] = "Point de vente"
+                    
+                    # Créer la carte scatter
+                    fig = px.scatter_mapbox(
+                        map_df,
+                        lat="Latitude",
+                        lon="Longitude",
+                        color="color_group",
+                        color_discrete_map=color_discrete_map,
+                        hover_name="hover_text" if 'hover_text' in map_df.columns else None,
+                        zoom=11,
+                        height=700,
+                        title=f"Carte des {len(map_df)} points de vente"
+                    )
+                    
+                    # Configurer le style de la carte
+                    fig.update_layout(
+                        mapbox_style="open-street-map",
+                        margin={"r": 0, "t": 40, "l": 0, "b": 0},
+                        legend=dict(
+                            orientation="v",
+                            yanchor="top",
+                            y=0.99,
+                            xanchor="right",
+                            x=0.99,
+                            bgcolor="rgba(255, 255, 255, 0.8)"
+                        )
+                    )
+                    
+                    # Ajuster les marqueurs
+                    fig.update_traces(
+                        marker=dict(size=8, opacity=0.7),
+                        hovertemplate='%{hovertext}<extra></extra>'
+                    )
+                    
+                    # Afficher la carte
+                    st.plotly_chart(fig, use_container_width=True)
+                    
+                    # Statistiques de la carte
+                    col_map_stat1, col_map_stat2, col_map_stat3 = st.columns(3)
+                    col_map_stat1.metric("📍 Points affichés", f"{len(map_df):,}")
+                    
+                    if 'Zone' in map_df.columns:
+                        col_map_stat2.metric("🗺️ Zones couvertes", map_df['Zone'].nunique())
+                    
+                    # Calculer la densité (points/km²)
+                    if len(map_df) > 1:
+                        from math import radians, cos, sin, asin, sqrt
+                        lat_range = map_df['Latitude'].max() - map_df['Latitude'].min()
+                        lon_range = map_df['Longitude'].max() - map_df['Longitude'].min()
+                        
+                        # Approximation de la surface en km² (1° ≈ 111 km en latitude)
+                        approx_area = lat_range * lon_range * 111 * 111 * cos(radians(map_df['Latitude'].mean()))
+                        if approx_area > 0:
+                            density = len(map_df) / approx_area
+                            col_map_stat3.metric("🔥 Densité", f"{density:.1f} pts/km²")
+                    
+                    # Légende interactive
+                    with st.expander("📖 Légende et filtres avancés"):
+                        st.markdown(f"""
+                        **🎨 Code couleur actuel :** {color_by}
+                        
+                        **🔵 Clustering :** {'Activé' if show_clusters else 'Désactivé'}
+                        
+                        **📊 Conseils d'utilisation :**
+                        - Zoom : Molette de la souris ou pincement tactile
+                        - Déplacement : Cliquer-glisser sur la carte
+                        - Hover : Survoler un point pour voir les détails
+                        - Plein écran : Icône dans le coin supérieur droit
+                        """)
+                        
+                        if color_by != "Uniforme" and color_by in map_df.columns:
+                            st.write(f"**Répartition par {color_by} :**")
+                            distribution = map_df[color_by].value_counts()
+                            st.bar_chart(distribution)
         
         elif menu == "🧪 Labo - Scraping":
             import sys
