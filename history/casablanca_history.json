@@ -1,0 +1,36 @@
+{
+  "zone": "Casablanca",
+  "created_at": "2026-01-02T01:17:36.751442",
+  "updates": [
+    {
+      "timestamp": "2026-01-02T01:17:36.751459",
+      "operation": "save",
+      "stats": {
+        "added": 2000,
+        "updated": 0,
+        "ignored": 0,
+        "duplicates_removed": 105,
+        "total_before": 2105,
+        "total_after": 2000,
+        "operation": "initial_import"
+      },
+      "log_file": "casablanca_20260102_011614.log",
+      "backup_file": null
+    },
+    {
+      "timestamp": "2026-01-02T01:44:51.383518",
+      "operation": "save",
+      "stats": {
+        "added": 5,
+        "updated": 0,
+        "ignored": 2100,
+        "duplicates_removed": 0,
+        "total_before": 2000,
+        "total_after": 2005,
+        "operation": "merge"
+      },
+      "log_file": "casablanca_20260102_012622.log",
+      "backup_file": "points_vente_casablanca_complet_20260102_012622.csv"
+    }
+  ]
+}

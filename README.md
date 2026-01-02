@@ -1,1 +1,0 @@
-./.venv/Scripts/streamlit run streamlit_platform.py 

@@ -1,0 +1,17 @@
+[2026-01-01 08:46:43] [INFO] 📝 DataManager initialisé pour: L'Oriental
+[2026-01-01 08:46:43] [INFO] 🔄 Début de la fusion de 1262 nouvelles entrées
+[2026-01-01 08:46:43] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 08:46:43] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 08:52:43] [INFO] ============================================================
+[2026-01-01 08:52:43] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 08:52:43] [INFO] ============================================================
+[2026-01-01 08:52:43] [INFO]    ➕ Nouveaux ajoutés: 1231
+[2026-01-01 08:52:43] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 08:52:43] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 08:52:43] [INFO]    🗑️  Doublons internes supprimés: 31
+[2026-01-01 08:52:43] [INFO]    📊 Total avant: 1262
+[2026-01-01 08:52:43] [INFO]    📊 Total après: 1231
+[2026-01-01 08:52:43] [INFO] ============================================================
+[2026-01-01 08:52:43] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 08:52:43] [INFO] 💾 Sauvegardé 1231 entrées: data\points_vente_l'oriental_complet.csv
+[2026-01-01 08:52:43] [INFO] 📜 Historique mis à jour: history\l'oriental_history.json

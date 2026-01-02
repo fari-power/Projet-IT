@@ -1,0 +1,17 @@
+[2026-01-01 08:30:50] [INFO] 📝 DataManager initialisé pour: Tanger-Tétouan-Al Hoceïma
+[2026-01-01 08:30:50] [INFO] 🔄 Début de la fusion de 2238 nouvelles entrées
+[2026-01-01 08:30:50] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 08:30:50] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 08:46:36] [INFO] ============================================================
+[2026-01-01 08:46:36] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 08:46:36] [INFO] ============================================================
+[2026-01-01 08:46:36] [INFO]    ➕ Nouveaux ajoutés: 2137
+[2026-01-01 08:46:36] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 08:46:36] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 08:46:36] [INFO]    🗑️  Doublons internes supprimés: 101
+[2026-01-01 08:46:36] [INFO]    📊 Total avant: 2238
+[2026-01-01 08:46:36] [INFO]    📊 Total après: 2137
+[2026-01-01 08:46:36] [INFO] ============================================================
+[2026-01-01 08:46:36] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 08:46:36] [INFO] 💾 Sauvegardé 2137 entrées: data\points_vente_tanger-tétouan-al_hoceïma_complet.csv
+[2026-01-01 08:46:36] [INFO] 📜 Historique mis à jour: history\tanger-tétouan-al_hoceïma_history.json

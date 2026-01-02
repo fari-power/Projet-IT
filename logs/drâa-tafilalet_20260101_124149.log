@@ -1,0 +1,17 @@
+[2026-01-01 12:41:49] [INFO] 📝 DataManager initialisé pour: Drâa-Tafilalet
+[2026-01-01 12:41:49] [INFO] 🔄 Début de la fusion de 879 nouvelles entrées
+[2026-01-01 12:41:49] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 12:41:49] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 12:44:07] [INFO] ============================================================
+[2026-01-01 12:44:07] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 12:44:07] [INFO] ============================================================
+[2026-01-01 12:44:07] [INFO]    ➕ Nouveaux ajoutés: 864
+[2026-01-01 12:44:07] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 12:44:07] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 12:44:07] [INFO]    🗑️  Doublons internes supprimés: 15
+[2026-01-01 12:44:07] [INFO]    📊 Total avant: 879
+[2026-01-01 12:44:07] [INFO]    📊 Total après: 864
+[2026-01-01 12:44:07] [INFO] ============================================================
+[2026-01-01 12:44:07] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 12:44:07] [INFO] 💾 Sauvegardé 864 entrées: data\points_vente_drâa-tafilalet_complet.csv
+[2026-01-01 12:44:07] [INFO] 📜 Historique mis à jour: history\drâa-tafilalet_history.json

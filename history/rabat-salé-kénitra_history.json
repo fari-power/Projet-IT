@@ -1,0 +1,21 @@
+{
+  "zone": "Rabat-Salé-Kénitra",
+  "created_at": "2026-01-01T11:04:52.138273",
+  "updates": [
+    {
+      "timestamp": "2026-01-01T11:04:52.138283",
+      "operation": "save",
+      "stats": {
+        "added": 2862,
+        "updated": 0,
+        "ignored": 0,
+        "duplicates_removed": 109,
+        "total_before": 2971,
+        "total_after": 2862,
+        "operation": "initial_import"
+      },
+      "log_file": "rabat-salé-kénitra_20260101_102819.log",
+      "backup_file": null
+    }
+  ]
+}

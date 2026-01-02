@@ -1,0 +1,17 @@
+[2026-01-01 08:52:51] [INFO] 📝 DataManager initialisé pour: Fès-Meknès
+[2026-01-01 08:52:51] [INFO] 🔄 Début de la fusion de 4822 nouvelles entrées
+[2026-01-01 08:52:51] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 08:52:51] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 10:28:12] [INFO] ============================================================
+[2026-01-01 10:28:12] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 10:28:12] [INFO] ============================================================
+[2026-01-01 10:28:12] [INFO]    ➕ Nouveaux ajoutés: 4650
+[2026-01-01 10:28:12] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 10:28:12] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 10:28:12] [INFO]    🗑️  Doublons internes supprimés: 172
+[2026-01-01 10:28:12] [INFO]    📊 Total avant: 4822
+[2026-01-01 10:28:12] [INFO]    📊 Total après: 4650
+[2026-01-01 10:28:12] [INFO] ============================================================
+[2026-01-01 10:28:12] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 10:28:12] [INFO] 💾 Sauvegardé 4650 entrées: data\points_vente_fès-meknès_complet.csv
+[2026-01-01 10:28:12] [INFO] 📜 Historique mis à jour: history\fès-meknès_history.json

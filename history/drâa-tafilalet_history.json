@@ -1,0 +1,21 @@
+{
+  "zone": "Drâa-Tafilalet",
+  "created_at": "2026-01-01T12:44:07.534613",
+  "updates": [
+    {
+      "timestamp": "2026-01-01T12:44:07.534634",
+      "operation": "save",
+      "stats": {
+        "added": 864,
+        "updated": 0,
+        "ignored": 0,
+        "duplicates_removed": 15,
+        "total_before": 879,
+        "total_after": 864,
+        "operation": "initial_import"
+      },
+      "log_file": "drâa-tafilalet_20260101_124149.log",
+      "backup_file": null
+    }
+  ]
+}

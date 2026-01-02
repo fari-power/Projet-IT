@@ -1,0 +1,21 @@
+{
+  "zone": "Dakhla-Oued Ed-Dahab",
+  "created_at": "2026-01-01T12:55:34.913424",
+  "updates": [
+    {
+      "timestamp": "2026-01-01T12:55:34.913440",
+      "operation": "save",
+      "stats": {
+        "added": 153,
+        "updated": 0,
+        "ignored": 0,
+        "duplicates_removed": 9,
+        "total_before": 162,
+        "total_after": 153,
+        "operation": "initial_import"
+      },
+      "log_file": "dakhla-oued_ed-dahab_20260101_125527.log",
+      "backup_file": null
+    }
+  ]
+}

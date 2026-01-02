@@ -1,0 +1,17 @@
+[2026-01-01 12:55:27] [INFO] 📝 DataManager initialisé pour: Dakhla-Oued Ed-Dahab
+[2026-01-01 12:55:27] [INFO] 🔄 Début de la fusion de 162 nouvelles entrées
+[2026-01-01 12:55:27] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 12:55:27] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 12:55:34] [INFO] ============================================================
+[2026-01-01 12:55:34] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 12:55:34] [INFO] ============================================================
+[2026-01-01 12:55:34] [INFO]    ➕ Nouveaux ajoutés: 153
+[2026-01-01 12:55:34] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 12:55:34] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 12:55:34] [INFO]    🗑️  Doublons internes supprimés: 9
+[2026-01-01 12:55:34] [INFO]    📊 Total avant: 162
+[2026-01-01 12:55:34] [INFO]    📊 Total après: 153
+[2026-01-01 12:55:34] [INFO] ============================================================
+[2026-01-01 12:55:34] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 12:55:34] [INFO] 💾 Sauvegardé 153 entrées: data\points_vente_dakhla-oued_ed-dahab_complet.csv
+[2026-01-01 12:55:34] [INFO] 📜 Historique mis à jour: history\dakhla-oued_ed-dahab_history.json

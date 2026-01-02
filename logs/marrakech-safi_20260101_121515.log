@@ -1,0 +1,17 @@
+[2026-01-01 12:15:15] [INFO] 📝 DataManager initialisé pour: Marrakech-Safi
+[2026-01-01 12:15:15] [INFO] 🔄 Début de la fusion de 2626 nouvelles entrées
+[2026-01-01 12:15:15] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 12:15:15] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 12:41:37] [INFO] ============================================================
+[2026-01-01 12:41:37] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 12:41:37] [INFO] ============================================================
+[2026-01-01 12:41:37] [INFO]    ➕ Nouveaux ajoutés: 2436
+[2026-01-01 12:41:37] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 12:41:37] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 12:41:37] [INFO]    🗑️  Doublons internes supprimés: 190
+[2026-01-01 12:41:37] [INFO]    📊 Total avant: 2626
+[2026-01-01 12:41:37] [INFO]    📊 Total après: 2436
+[2026-01-01 12:41:37] [INFO] ============================================================
+[2026-01-01 12:41:37] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 12:41:37] [INFO] 💾 Sauvegardé 2436 entrées: data\points_vente_marrakech-safi_complet.csv
+[2026-01-01 12:41:37] [INFO] 📜 Historique mis à jour: history\marrakech-safi_history.json

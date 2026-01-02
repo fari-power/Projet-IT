@@ -1,0 +1,17 @@
+[2026-01-01 11:05:01] [INFO] 📝 DataManager initialisé pour: Béni Mellal-Khénifra
+[2026-01-01 11:05:01] [INFO] 🔄 Début de la fusion de 1022 nouvelles entrées
+[2026-01-01 11:05:01] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 11:05:01] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 11:10:06] [INFO] ============================================================
+[2026-01-01 11:10:06] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 11:10:06] [INFO] ============================================================
+[2026-01-01 11:10:06] [INFO]    ➕ Nouveaux ajoutés: 1011
+[2026-01-01 11:10:06] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 11:10:06] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 11:10:06] [INFO]    🗑️  Doublons internes supprimés: 11
+[2026-01-01 11:10:06] [INFO]    📊 Total avant: 1022
+[2026-01-01 11:10:06] [INFO]    📊 Total après: 1011
+[2026-01-01 11:10:06] [INFO] ============================================================
+[2026-01-01 11:10:06] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 11:10:06] [INFO] 💾 Sauvegardé 1011 entrées: data\points_vente_béni_mellal-khénifra_complet.csv
+[2026-01-01 11:10:06] [INFO] 📜 Historique mis à jour: history\béni_mellal-khénifra_history.json

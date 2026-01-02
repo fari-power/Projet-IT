@@ -1,0 +1,21 @@
+{
+  "zone": "Laâyoune-Sakia El Hamra",
+  "created_at": "2026-01-01T12:55:23.293126",
+  "updates": [
+    {
+      "timestamp": "2026-01-01T12:55:23.293141",
+      "operation": "save",
+      "stats": {
+        "added": 209,
+        "updated": 0,
+        "ignored": 0,
+        "duplicates_removed": 4,
+        "total_before": 213,
+        "total_after": 209,
+        "operation": "initial_import"
+      },
+      "log_file": "laâyoune-sakia_el_hamra_20260101_125507.log",
+      "backup_file": null
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "zone": "Souss-Massa",
+  "created_at": "2026-01-01T12:54:39.868363",
+  "updates": [
+    {
+      "timestamp": "2026-01-01T12:54:39.868373",
+      "operation": "save",
+      "stats": {
+        "added": 1454,
+        "updated": 0,
+        "ignored": 0,
+        "duplicates_removed": 57,
+        "total_before": 1511,
+        "total_after": 1454,
+        "operation": "initial_import"
+      },
+      "log_file": "souss-massa_20260101_124417.log",
+      "backup_file": null
+    }
+  ]
+}

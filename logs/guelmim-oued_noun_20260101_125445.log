@@ -1,0 +1,17 @@
+[2026-01-01 12:54:45] [INFO] 📝 DataManager initialisé pour: Guelmim-Oued Noun
+[2026-01-01 12:54:45] [INFO] 🔄 Début de la fusion de 223 nouvelles entrées
+[2026-01-01 12:54:45] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 12:54:45] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 12:55:01] [INFO] ============================================================
+[2026-01-01 12:55:01] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 12:55:01] [INFO] ============================================================
+[2026-01-01 12:55:01] [INFO]    ➕ Nouveaux ajoutés: 213
+[2026-01-01 12:55:01] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 12:55:01] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 12:55:01] [INFO]    🗑️  Doublons internes supprimés: 10
+[2026-01-01 12:55:01] [INFO]    📊 Total avant: 223
+[2026-01-01 12:55:01] [INFO]    📊 Total après: 213
+[2026-01-01 12:55:01] [INFO] ============================================================
+[2026-01-01 12:55:01] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 12:55:01] [INFO] 💾 Sauvegardé 213 entrées: data\points_vente_guelmim-oued_noun_complet.csv
+[2026-01-01 12:55:01] [INFO] 📜 Historique mis à jour: history\guelmim-oued_noun_history.json

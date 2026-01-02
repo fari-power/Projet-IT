@@ -1,0 +1,21 @@
+{
+  "zone": "Guelmim-Oued Noun",
+  "created_at": "2026-01-01T12:55:01.998407",
+  "updates": [
+    {
+      "timestamp": "2026-01-01T12:55:01.998417",
+      "operation": "save",
+      "stats": {
+        "added": 213,
+        "updated": 0,
+        "ignored": 0,
+        "duplicates_removed": 10,
+        "total_before": 223,
+        "total_after": 213,
+        "operation": "initial_import"
+      },
+      "log_file": "guelmim-oued_noun_20260101_125445.log",
+      "backup_file": null
+    }
+  ]
+}

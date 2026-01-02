@@ -1,0 +1,17 @@
+[2026-01-01 12:55:07] [INFO] 📝 DataManager initialisé pour: Laâyoune-Sakia El Hamra
+[2026-01-01 12:55:07] [INFO] 🔄 Début de la fusion de 213 nouvelles entrées
+[2026-01-01 12:55:07] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 12:55:07] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 12:55:23] [INFO] ============================================================
+[2026-01-01 12:55:23] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 12:55:23] [INFO] ============================================================
+[2026-01-01 12:55:23] [INFO]    ➕ Nouveaux ajoutés: 209
+[2026-01-01 12:55:23] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 12:55:23] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 12:55:23] [INFO]    🗑️  Doublons internes supprimés: 4
+[2026-01-01 12:55:23] [INFO]    📊 Total avant: 213
+[2026-01-01 12:55:23] [INFO]    📊 Total après: 209
+[2026-01-01 12:55:23] [INFO] ============================================================
+[2026-01-01 12:55:23] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 12:55:23] [INFO] 💾 Sauvegardé 209 entrées: data\points_vente_laâyoune-sakia_el_hamra_complet.csv
+[2026-01-01 12:55:23] [INFO] 📜 Historique mis à jour: history\laâyoune-sakia_el_hamra_history.json

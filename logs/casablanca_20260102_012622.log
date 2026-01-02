@@ -1,0 +1,17 @@
+[2026-01-02 01:26:22] [INFO] 📝 DataManager initialisé pour: Casablanca
+[2026-01-02 01:26:22] [INFO] 🔄 Début de la fusion de 2105 nouvelles entrées
+[2026-01-02 01:26:22] [INFO] 📂 Chargé 2000 entrées existantes
+[2026-01-02 01:26:22] [INFO] 🔄 Fusion avec 2000 entrées existantes
+[2026-01-02 01:44:51] [INFO] ============================================================
+[2026-01-02 01:44:51] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-02 01:44:51] [INFO] ============================================================
+[2026-01-02 01:44:51] [INFO]    ➕ Nouveaux ajoutés: 5
+[2026-01-02 01:44:51] [INFO]    ✏️  Mis à jour: 0
+[2026-01-02 01:44:51] [INFO]    ⏭️  Ignorés (doublons): 2100
+[2026-01-02 01:44:51] [INFO]    🗑️  Doublons internes supprimés: 0
+[2026-01-02 01:44:51] [INFO]    📊 Total avant: 2000
+[2026-01-02 01:44:51] [INFO]    📊 Total après: 2005
+[2026-01-02 01:44:51] [INFO] ============================================================
+[2026-01-02 01:44:51] [INFO] 💾 Backup créée: backups\points_vente_casablanca_complet_20260102_012622.csv
+[2026-01-02 01:44:51] [INFO] 💾 Sauvegardé 2005 entrées: data\points_vente_casablanca_complet.csv
+[2026-01-02 01:44:51] [INFO] 📜 Historique mis à jour: history\casablanca_history.json

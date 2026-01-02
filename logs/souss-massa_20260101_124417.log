@@ -1,0 +1,17 @@
+[2026-01-01 12:44:17] [INFO] 📝 DataManager initialisé pour: Souss-Massa
+[2026-01-01 12:44:17] [INFO] 🔄 Début de la fusion de 1511 nouvelles entrées
+[2026-01-01 12:44:17] [INFO] ℹ️  Aucune donnée existante
+[2026-01-01 12:44:17] [INFO] 📝 Première importation pour cette zone
+[2026-01-01 12:54:39] [INFO] ============================================================
+[2026-01-01 12:54:39] [INFO] 📊 STATISTIQUES DE FUSION
+[2026-01-01 12:54:39] [INFO] ============================================================
+[2026-01-01 12:54:39] [INFO]    ➕ Nouveaux ajoutés: 1454
+[2026-01-01 12:54:39] [INFO]    ✏️  Mis à jour: 0
+[2026-01-01 12:54:39] [INFO]    ⏭️  Ignorés (doublons): 0
+[2026-01-01 12:54:39] [INFO]    🗑️  Doublons internes supprimés: 57
+[2026-01-01 12:54:39] [INFO]    📊 Total avant: 1511
+[2026-01-01 12:54:39] [INFO]    📊 Total après: 1454
+[2026-01-01 12:54:39] [INFO] ============================================================
+[2026-01-01 12:54:39] [INFO] ℹ️  Pas de fichier existant à sauvegarder
+[2026-01-01 12:54:39] [INFO] 💾 Sauvegardé 1454 entrées: data\points_vente_souss-massa_complet.csv
+[2026-01-01 12:54:39] [INFO] 📜 Historique mis à jour: history\souss-massa_history.json
