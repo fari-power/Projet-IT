@@ -295,7 +295,7 @@ def main():
             st.write(f"Bienvenue, *{st.session_state['name']}*")
             
             st.markdown("---")
-            menu = st.radio("Navigation", ["Dashboard", "Explorateur de Données", "Carte Interactive", "🧪 Labo - Scraping", "Paramètres"], label_visibility="collapsed")
+            menu = st.radio("Navigation", ["Dashboard", "Explorateur de Données", "Carte Interactive", "🧪 Labo - Scraping"], label_visibility="collapsed")
             
             st.markdown("### Filtres Globaux")
             df, city = load_data()
